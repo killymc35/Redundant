@@ -1,12 +1,14 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 
-public class GridHandler : MonoBehaviour
+public class GridHandler : MonoBehaviour 
 {
     #region Dependencies
     [SerializeField] Grid grid;
     [SerializeField] GameObject homeBlock;
     #endregion
     #region Public Fields
+    public RectTransform targetRect;
     #endregion
     #region Private Variables
     enum BlockType : byte { Empty, Home }
@@ -14,17 +16,19 @@ public class GridHandler : MonoBehaviour
     #region Start
     void Start()
     {
-        CreateBlock(BlockType.Home, Vector2Int.zero);
-        //CreateBlock(BlockType.Home, new Vector2Int(1,2));
+        CreateBlock(BlockType.Home, Vector3Int.zero);
+        //CreateBlock(BlockType.Home, new Vector3Int(1,2,0));
+    }
+    #endregion
+    #region Update
+    void Update()
+    {
     }
     #endregion
     #region Create Block
-    private void CreateBlock(BlockType blockType, Vector2Int position)
+    private void CreateBlock(BlockType blockType, Vector3Int position)
     {
-        Vector3Int blockPosition = Vector3Int.zero;
-        blockPosition.x = position.x;
-        blockPosition.y = position.y;
-        Instantiate(homeBlock, grid.GetCellCenterWorld(blockPosition), Quaternion.identity, parent: this.transform);
+        Instantiate(homeBlock, grid.GetCellCenterWorld(position), Quaternion.identity, parent: this.transform);
     }
     #endregion
 }
