@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3500067382328980130}
   - component: {fileID: 7529384666290577076}
   - component: {fileID: 1069596309899618359}
+  - component: {fileID: 5819532810543299977}
   m_Layer: 6
   m_Name: Block
   m_TagString: Untagged
@@ -75,3 +76,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5819532810543299977
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8407425992720844570}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 74f61784b3989fc49a6b60bcc16765e3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: '::'
+  validPlacementColour: {r: 0.6320754, g: 0.6320754, b: 0.6320754, a: 1}
+  invalidPlacementColour: {r: 0.8113208, g: 0.44010326, b: 0.44010326, a: 1}
+  hasValidPlacement: 0
+  isFixed: 0
