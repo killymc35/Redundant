@@ -212,6 +212,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   homeBlock: {fileID: 993196045161013089, guid: 34e8edd06f90bec44b467736bddf11f6, type: 3}
+  validIndicator: {fileID: 8407425992720844570, guid: 3757e0acfecaeaf4e80fabede4c5c0d8, type: 3}
   gridSize: {x: 13, y: 7}
 --- !u!1 &301740595
 GameObject:

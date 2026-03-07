@@ -2,13 +2,13 @@ using System.Drawing;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using System.Runtime.ConstrainedExecution;
 
 public class GridHandler : MonoBehaviour
 {
     #region Dependencies
     public LayerMask gridLayerMask;
     [SerializeField] GameObject homeBlock;
+    [SerializeField] GameObject validIndicator;
     #endregion
     #region Public Fields
     public Vector2Int gridSize;
@@ -18,7 +18,7 @@ public class GridHandler : MonoBehaviour
 
     private GameObject blockPrefab;
     private GameObject phantomBlock;
-    private BlockController phantomController;
+    private PhantomBlockController phantomController;
     
     private Camera mainCamera;
     private Grid grid;
@@ -51,7 +51,7 @@ public class GridHandler : MonoBehaviour
                 if (!phantomBlock.activeSelf) phantomBlock.SetActive(true);
                 phantomBlock.transform.position = hit.point;
 
-                BlockController phantomController = phantomBlock.GetComponent<BlockController>();
+                PhantomBlockController phantomController = phantomBlock.GetComponent<PhantomBlockController>();
                 Vector2Int coordinate = (Vector2Int)grid.WorldToCell(hit.point);
                 CheckValidity(coordinate);
                 if (Input.GetMouseButtonDown(0))
@@ -82,14 +82,14 @@ public class GridHandler : MonoBehaviour
         phantomBlock = Instantiate(blockPrefab, parent: this.transform);
         phantomBlock.SetActive(false);
 
-        phantomController = phantomBlock.GetComponent<BlockController>();
+        phantomController = phantomBlock.GetComponent<PhantomBlockController>();
         phantomController.SetValidity(true);
     }
 
     private bool CheckValidity(Vector2Int coordinate)
     {
         Vector2Int arrayCoord = CoordToArrayIndex(coordinate);
-        if (gridBlocks[arrayCoord.x, arrayCoord.y] == null)
+        if (CheckForAdjacentBlocks(arrayCoord) && gridBlocks[arrayCoord.x, arrayCoord.y] == null)
         {
             phantomController.SetValidity(true);
             return true;
@@ -101,12 +101,37 @@ public class GridHandler : MonoBehaviour
         }
     }
 
+    private bool CheckForAdjacentBlocks(Vector2Int arrayCoord)
+    {
+        if (arrayCoord.x + 1 < gridSize.x) if (gridBlocks[arrayCoord.x + 1, arrayCoord.y] != null) return true;
+        if (arrayCoord.x - 1 >= 0) if (gridBlocks[arrayCoord.x - 1, arrayCoord.y] != null) return true;
+        if (arrayCoord.y + 1 < gridSize.y) if (gridBlocks[arrayCoord.x, arrayCoord.y + 1] != null) return true;
+        if (arrayCoord.y - 1 >= 0) if (gridBlocks[arrayCoord.x, arrayCoord.y - 1] != null) return true;
+        return false;
+    }
+
     public void PlaceBlock(GameObject blockPrefab, Vector2Int coordinate)
     {
         Vector3Int position = Vector3Int.zero;
         position.x = coordinate.x;
         position.y = coordinate.y;
-        gridBlocks[CoordToArrayIndex(coordinate).x, CoordToArrayIndex(coordinate).y] = Instantiate(blockPrefab, grid.GetCellCenterWorld(position), Quaternion.identity, parent: this.transform);
+        Vector2Int arrayCoord = CoordToArrayIndex(coordinate);
+        if (gridBlocks[arrayCoord.x, arrayCoord.y] != null)
+        {
+            Destroy(gridBlocks[arrayCoord.x, arrayCoord.y]);
+            gridBlocks[arrayCoord.x, arrayCoord.y] = null;
+        }
+        gridBlocks[arrayCoord.x, arrayCoord.y] = Instantiate(blockPrefab, grid.GetCellCenterWorld(position), Quaternion.identity, parent: this.transform);
+        validPlaceholders(position);
+    }
+
+    private void validPlaceholders (Vector3Int position)
+    {
+        Vector2Int arrayCoord = CoordToArrayIndex((Vector2Int)position);
+        if (arrayCoord.x + 1 < gridSize.x) if (gridBlocks[arrayCoord.x + 1, arrayCoord.y] == null) gridBlocks[arrayCoord.x, arrayCoord.y] = Instantiate(validIndicator, grid.GetCellCenterWorld(position + Vector3Int.right), Quaternion.identity, parent: this.transform);
+        if (arrayCoord.x - 1 >= 0) if (gridBlocks[arrayCoord.x - 1, arrayCoord.y] == null) gridBlocks[arrayCoord.x, arrayCoord.y] = Instantiate(validIndicator, grid.GetCellCenterWorld(position + Vector3Int.left), Quaternion.identity, parent: this.transform);
+        if (arrayCoord.y + 1 < gridSize.y) if (gridBlocks[arrayCoord.x, arrayCoord.y + 1] == null) gridBlocks[arrayCoord.x, arrayCoord.y] = Instantiate(validIndicator, grid.GetCellCenterWorld(position + Vector3Int.up), Quaternion.identity, parent: this.transform);
+        if (arrayCoord.y - 1 >= 0) if (gridBlocks[arrayCoord.x, arrayCoord.y - 1] == null) gridBlocks[arrayCoord.x, arrayCoord.y] = Instantiate(validIndicator, grid.GetCellCenterWorld(position + Vector3Int.down), Quaternion.identity, parent: this.transform);
     }
 
     private void FirstGrid()

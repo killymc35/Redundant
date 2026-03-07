@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class BlockController : MonoBehaviour
+public class PhantomBlockController : MonoBehaviour
 {
     public Color validPlacementColour;
     public Color invalidPlacementColour;
