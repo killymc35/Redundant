@@ -15,6 +15,14 @@ public abstract class ClickerBuilding : MonoBehaviour
     public TextMeshProUGUI ResourceText;
     public TextMeshProUGUI LevelText;
     
+    public enum State
+    {
+        HIDDEN,
+        REVEALED,
+        PURCHASED
+    }
+    public State CurrentState =  State.HIDDEN;
+    
     [Header("Cost")]
     public float CostStarting;
     private float CostCurrent;
@@ -43,6 +51,11 @@ public abstract class ClickerBuilding : MonoBehaviour
         ResourceCurrent += ResourceStarting;
         
         RefreshUI();
+
+        if (Level == 1)
+        {
+            BuildingList.Instance.RefreshBuildingList();
+        }
     }
 
     private void RefreshUI()
@@ -51,6 +64,24 @@ public abstract class ClickerBuilding : MonoBehaviour
         CostText.text = CostCurrent.ToString("F1");
         ResourceText.text = ResourceStarting.ToString("F1");
         LevelText.text = Level.ToString();
+    }
+
+    public void ChangeState(State newState)
+    {
+        CurrentState = newState;
+
+        switch (CurrentState)
+        {
+            case State.HIDDEN:
+                gameObject.SetActive(false);
+                break;
+            case State.REVEALED:
+                gameObject.SetActive(true);
+                break;
+            case State.PURCHASED:
+                gameObject.SetActive(true);
+                break;
+        }
     }
     
     private void FixedUpdate()
