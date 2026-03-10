@@ -284,7 +284,7 @@ GameObject:
   - component: {fileID: 2253338860462128635}
   - component: {fileID: 3381121473753716733}
   - component: {fileID: 3838917850633433668}
-  - component: {fileID: 6271963866963754507}
+  - component: {fileID: 777214524496049798}
   m_Layer: 5
   m_Name: Building
   m_TagString: Untagged
@@ -397,8 +397,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 6271963866963754507}
-        m_TargetAssemblyTypeName: ExampleBuilding, Assembly-CSharp
+      - m_Target: {fileID: 777214524496049798}
+        m_TargetAssemblyTypeName: ClickerBuilding, Assembly-CSharp
         m_MethodName: Purchase
         m_Mode: 1
         m_Arguments:
@@ -409,7 +409,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
---- !u!114 &6271963866963754507
+--- !u!114 &777214524496049798
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -418,15 +418,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 3250425397611126380}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9a9780bd5ea53f84889efc7a86d4b246, type: 3}
+  m_Script: {fileID: 11500000, guid: f0d15b4a42fed9a46b816b132569fff0, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ExampleBuilding
+  m_EditorClassIdentifier: Assembly-CSharp::ClickerBuilding
   Name: 
   Level: 0
   NameText: {fileID: 2726648665951879072}
   CostText: {fileID: 7026371974711841396}
   ResourceText: {fileID: 3496605870419963324}
   LevelText: {fileID: 5492164401320432952}
+  CurrentState: 0
   CostStarting: 10
   ResourceStarting: 0.1
 --- !u!1 &3811534909229503673

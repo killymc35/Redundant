@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public abstract class ClickerBuilding : MonoBehaviour
+public class ClickerBuilding : MonoBehaviour
 {
     public string Name;
     public int Level = 0;
@@ -51,14 +51,15 @@ public abstract class ClickerBuilding : MonoBehaviour
         ResourceCurrent += ResourceStarting;
         
         RefreshUI();
-
+        UpgradeList.Instance.RefreshUpgradeList();
+        
         if (Level == 1)
         {
             BuildingList.Instance.RefreshBuildingList();
         }
     }
 
-    private void RefreshUI()
+    public void RefreshUI()
     {
         NameText.text = Name;
         CostText.text = CostCurrent.ToString("F1");

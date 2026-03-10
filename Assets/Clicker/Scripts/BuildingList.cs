@@ -22,6 +22,9 @@ public class BuildingList : MonoBehaviour
 				building.ChangeState(ClickerBuilding.State.HIDDEN);
 			}
 		}
+
+		if (nextBuilding >= Buildings.Length) return;
+
 		Buildings[nextBuilding].ChangeState(ClickerBuilding.State.REVEALED);
 	}
 
